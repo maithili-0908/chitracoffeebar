@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 const allowedOrigins = [
   process.env.CLIENT_URL || "http://localhost:5173",
-  "http://localhost:5173",
+  "https://chitracoffeebar.netlify.app",
   "http://127.0.0.1:5173"
 ];
 
