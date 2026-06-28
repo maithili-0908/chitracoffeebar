@@ -19,6 +19,7 @@ export default function StockPage() {
   const [formValues, setFormValues] = useState({});
   const [message, setMessage] = useState(null);
   const [savingId, setSavingId] = useState("");
+  const [savingAll, setSavingAll] = useState(false);
 
   const isToday = selectedDate === today;
 
@@ -64,6 +65,7 @@ export default function StockPage() {
 
   const updateAllStock = async () => {
     setMessage(null);
+    setSavingAll(true);
     try {
       const todayRows = rows.filter((row) => formValues[row.item]);
       await Promise.all(
@@ -79,6 +81,8 @@ export default function StockPage() {
       await loadStock(selectedDate);
     } catch (error) {
       setMessage({ type: "error", text: getApiError(error) });
+    } finally {
+      setSavingAll(false);
     }
   };
 
@@ -198,8 +202,12 @@ export default function StockPage() {
           </div>
         )}
         {rows.length > 0 && isToday && (
-          <button onClick={updateAllStock} className="w-full rounded-md bg-coffee-700 px-4 py-3 font-black text-cream hover:bg-coffee-800">
-            Update Items
+          <button
+            onClick={updateAllStock}
+            disabled={savingAll}
+            className="w-full rounded-md bg-coffee-700 px-4 py-3 font-black text-cream hover:bg-coffee-800 disabled:cursor-not-allowed disabled:bg-coffee-300"
+          >
+            {savingAll ? "Updating Items" : "Update Items"}
           </button>
         )}
       </div>

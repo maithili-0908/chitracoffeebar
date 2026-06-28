@@ -12,6 +12,12 @@ function getTodayKey() {
 
 const today = getTodayKey();
 
+function getDateKey(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+}
+
 export default function Home() {
   const { user } = useAuth();
   const [items, setItems] = useState([]);
@@ -29,6 +35,21 @@ export default function Home() {
     loadStore();
   }, []);
 
+  useEffect(() => {
+    const refreshStore = () => loadStore();
+    const refreshWhenVisible = () => {
+      if (!document.hidden) loadStore();
+    };
+
+    window.addEventListener("focus", refreshStore);
+    document.addEventListener("visibilitychange", refreshWhenVisible);
+
+    return () => {
+      window.removeEventListener("focus", refreshStore);
+      document.removeEventListener("visibilitychange", refreshWhenVisible);
+    };
+  }, []);
+
   const loadStore = async () => {
     try {
       const [categoryResponse, itemResponse] = await Promise.all([api.get("/categories"), api.get("/items")]);
@@ -40,7 +61,7 @@ export default function Home() {
   };
 
   const getAvailable = (item) => {
-    const itemDate = item.date ? new Date(item.date).toISOString().slice(0, 10) : "";
+    const itemDate = getDateKey(item.date);
     if (itemDate !== today) return 0;
     return item.balance;
   };
@@ -129,8 +150,8 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="grid h-[calc(100vh-96px)] gap-5 overflow-hidden lg:grid-cols-[2.65fr_1.35fr]">
-      <div className="min-w-0 min-h-0 flex flex-col overflow-hidden">
+      <div className="grid gap-5 lg:h-[calc(100vh-96px)] lg:overflow-hidden lg:grid-cols-[2.65fr_1.35fr]">
+      <div className="min-w-0 min-h-0 flex flex-col lg:overflow-hidden">
       <section className="mb-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-md bg-coffee-800 p-6 text-cream shadow-soft">
           <p className="text-sm font-bold uppercase tracking-widest text-caramel">Fresh billing counter</p>
@@ -176,8 +197,8 @@ export default function Home() {
 
       <Message type={message?.type}>{message?.text}</Message>
 
-      <div className="min-h-0 flex-1 overflow-hidden">
-        <div className="h-full min-h-0 space-y-6 overflow-y-auto pb-4 pr-2 scrollbar-thin">
+      <div className="min-h-0 flex-1 lg:overflow-hidden">
+        <div className="max-h-[70vh] min-h-0 space-y-6 overflow-y-auto pb-4 pr-2 scrollbar-thin lg:h-full lg:max-h-none">
           {Object.keys(groupedItems).length === 0 ? (
             <div className="rounded-md border border-dashed border-coffee-300 bg-white/60 p-10 text-center">
               <p className="text-lg font-black text-coffee-800">No items.</p>
@@ -217,7 +238,7 @@ export default function Home() {
       </div>
       </div>
 
-        <aside className="flex min-h-0 h-full flex-col rounded-md border border-coffee-200 bg-cream p-4 shadow-soft">
+        <aside className="flex max-h-[80vh] min-h-0 flex-col rounded-md border border-coffee-200 bg-cream p-4 shadow-soft lg:h-full lg:max-h-none">
           <h2 className="text-xl font-black text-coffee-900">Cart</h2>
           <div className="mt-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 scrollbar-thin">
             {cart.map((item) => (
