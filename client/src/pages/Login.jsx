@@ -45,31 +45,33 @@ export default function Login() {
   );
 }
 
-export function AuthShell({ title, children }) {
+export function AuthShell({ title, children, compact = false }) {
   return (
-    <main className="grid min-h-screen place-items-center px-4 py-8">
-      <section className="w-full max-w-md rounded-md border border-coffee-200 bg-cream p-6 shadow-soft">
-        <Link to="/" className="mb-6 flex items-center justify-center gap-2 text-2xl font-black text-coffee-800">
-          <Coffee className="h-7 w-7 text-coffee-600" />
+    <main className={`grid min-h-screen place-items-center px-4 ${compact ? "py-3" : "py-8"}`}>
+      <section className={`w-full rounded-md border border-coffee-200 bg-cream shadow-soft ${compact ? "max-w-sm p-4" : "max-w-md p-6"}`}>
+        <Link to="/" className={`flex items-center justify-center gap-2 font-black text-coffee-800 ${compact ? "mb-3 text-xl" : "mb-6 text-2xl"}`}>
+          <Coffee className={`${compact ? "h-6 w-6" : "h-7 w-7"} text-coffee-600`} />
           Chitra Coffee Bar ☕
         </Link>
-        <h1 className="mb-5 text-center text-3xl font-black text-coffee-900">{title}</h1>
+        <h1 className={`text-center font-black text-coffee-900 ${compact ? "mb-3 text-2xl" : "mb-5 text-3xl"}`}>{title}</h1>
         {children}
       </section>
     </main>
   );
 }
 
-export function Input({ label, value, onChange, type = "text", required = true }) {
+export function Input({ label, value, onChange, type = "text", required = true, autoComplete, name, compact = false }) {
   return (
     <label className="block">
       <span className="text-sm font-black text-coffee-700">{label}</span>
       <input
         required={required}
         type={type}
+        name={name}
+        autoComplete={autoComplete}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1 w-full rounded-md border border-coffee-300 bg-white px-3 py-3 font-semibold outline-none focus:border-coffee-700"
+        className={`mt-1 w-full rounded-md border border-coffee-300 bg-white px-3 font-semibold outline-none focus:border-coffee-700 ${compact ? "py-2" : "py-3"}`}
       />
     </label>
   );

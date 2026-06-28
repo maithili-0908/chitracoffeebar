@@ -15,28 +15,28 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-coffee-200 bg-cream/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <Link to="/" className="flex items-center gap-2 text-xl font-black tracking-wide text-coffee-800">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          <Link to="/" className="flex items-center gap-2 text-lg font-black tracking-wide text-coffee-800 sm:text-xl">
             <Coffee className="h-6 w-6 text-coffee-600" />
             Chitra Coffee Bar ☕
           </Link>
 
-          <nav className="flex items-center gap-2">
-            <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/">
+          <nav className="flex flex-wrap items-center gap-2">
+            <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/">
               <Home className="mr-2 h-4 w-4" />
               Home
             </NavLink>
             {user?.role === "admin" && (
               <>
-                <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/admin">
+                <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/admin">
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   Admin
                 </NavLink>
-                <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/profit">
+                <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/profit">
                   <TrendingUp className="mr-2 h-4 w-4" />
                   Profit
                 </NavLink>
-                <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/sales">
+                <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/sales">
                   <ReceiptText className="mr-2 h-4 w-4" />
                   Sales
                 </NavLink>
@@ -44,11 +44,11 @@ export default function Layout({ children }) {
             )}
             {user && (
               <>
-                <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/worker">
+                <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/worker">
                   <PackagePlus className="mr-2 h-4 w-4" />
                   Items
                 </NavLink>
-                <NavLink className="hidden rounded-md px-3 py-2 text-sm font-bold text-coffee-700 hover:bg-coffee-100 sm:flex" to="/stock">
+                <NavLink className="flex rounded-md px-2 py-2 text-xs font-bold text-coffee-700 hover:bg-coffee-100 sm:px-3 sm:text-sm" to="/stock">
                   <Warehouse className="mr-2 h-4 w-4" />
                   Stock
                 </NavLink>

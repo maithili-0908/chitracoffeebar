@@ -32,14 +32,18 @@ export default function Register() {
   };
 
   return (
-    <AuthShell title="Sign in">
-      <div className="mb-5 grid grid-cols-2 gap-3">
+    <AuthShell title="Sign in" compact>
+      <div className="mb-3 grid grid-cols-2 gap-3">
         {["admin", "worker"].map((option) => (
           <button
             key={option}
             type="button"
-            onClick={() => setRole(option)}
-            className={`rounded-md px-4 py-3 font-black capitalize ${
+            onClick={() => {
+              setRole(option);
+              setForm(emptyForm);
+              setError("");
+            }}
+            className={`rounded-md px-4 py-2 font-black capitalize ${
               role === option ? "bg-coffee-700 text-cream" : "border border-coffee-300 bg-white text-coffee-700"
             }`}
           >
@@ -47,19 +51,22 @@ export default function Register() {
           </button>
         ))}
       </div>
-      <form onSubmit={submit} className="space-y-4">
+      <form onSubmit={submit} className="space-y-2" autoComplete="off">
         <Message type="error">{error}</Message>
-        <Input label="Name" value={form.name} onChange={(name) => setForm({ ...form, name })} />
-        <Input label="Email" type="email" value={form.email} onChange={(email) => setForm({ ...form, email })} />
-        <Input label="Phone number" value={form.phone} onChange={(phone) => setForm({ ...form, phone })} />
-        <Input label="Password" type="password" value={form.password} onChange={(password) => setForm({ ...form, password })} />
+        <Input compact label="Name" name={`signup-${role}-name`} autoComplete="off" value={form.name} onChange={(name) => setForm({ ...form, name })} />
+        <Input compact label="Email" name={`signup-${role}-email`} autoComplete="off" type="email" value={form.email} onChange={(email) => setForm({ ...form, email })} />
+        <Input compact label="Phone number" name={`signup-${role}-phone`} autoComplete="off" value={form.phone} onChange={(phone) => setForm({ ...form, phone })} />
+        <Input compact label="Password" name={`signup-${role}-password`} autoComplete="new-password" type="password" value={form.password} onChange={(password) => setForm({ ...form, password })} />
         <Input
+          compact
           label="Confirm password"
+          name={`signup-${role}-confirm-password`}
+          autoComplete="new-password"
           type="password"
           value={form.confirmPassword}
           onChange={(confirmPassword) => setForm({ ...form, confirmPassword })}
         />
-        <button className="w-full rounded-md bg-coffee-700 px-4 py-3 font-black text-cream hover:bg-coffee-800">
+        <button className="w-full rounded-md bg-coffee-700 px-4 py-2 font-black text-cream hover:bg-coffee-800">
           Create Account
         </button>
         <div className="flex flex-wrap justify-between gap-2 text-sm font-bold text-coffee-700">
